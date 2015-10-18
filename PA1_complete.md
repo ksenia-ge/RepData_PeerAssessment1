@@ -177,5 +177,59 @@ for(i in 1:17568) {
         } else new_data$steps[i] <- activity_data$steps[i]
 }
 ```
+For the new data set:
+
+```r
+steps <- new_data$steps
+dates <- new_data$date
+ids <- new_data$interval
+```
+
+As before create blank vectors that will contain daily values of steps, the number of non-NA observations and the number of NAs.
+
+
+```r
+dailySteps <- vector(mode = "numeric", length = length(unique_dates))
+numberDailyObs <- vector(mode = "numeric", length = length(unique_dates))
+numberDailyNAs <- vector(mode = "numeric", length = length(unique_dates))
+```
+
+Then for each day, sum the number of steps, NA and non-NA values.
+
+```r
+for (i in seq_along(unique_dates)) {
+        logicDay <- dates == unique_dates[i]
+        daySubset <- steps[logicDay]
+        dailySteps[i] <- sum(daySubset, na.rm = TRUE)
+        numberDailyNAs[i] <- sum(is.na(daySubset))
+        numberDailyObs[i] <- sum(!is.na(daySubset))
+}
+```
+Then plot a histogram of daily steps as before, and calculate and report mean and median number of daily steps
+
+
+```r
+hist(dailySteps, breaks = 8)
+```
+
+![](PA1_complete_files/figure-html/unnamed-chunk-16-1.png) 
+
+```r
+meanSteps <- mean(dailySteps)
+medianSteps <- median(dailySteps)
+paste("mean daily steps =", meanSteps, sep = " ")
+```
+
+```
+## [1] "mean daily steps = 10766.1886792453"
+```
+
+```r
+paste("median daily steps =", medianSteps, sep = " ")
+```
+
+```
+## [1] "median daily steps = 10766.1886792453"
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
