@@ -101,13 +101,13 @@ for (i in seq_along(unique_id)) {
         idObs[i] <- sum(!is.na(idSubset))
 }
 ```
-Now create a dataframe with unique interval id and mean step values and make the time series plot.
+Now create a dataframe with unique interval id and mean step values and make the time series plot of mean steps versus interval id.
 
 
 ```r
 intervalMean <- cbind(unique_id, idSteps)
-tsId <- ts(intervalMean)
-plot(tsId)
+colnames(intervalMean) <- c("IntervalId", "MeanSteps")
+plot(intervalMean, type = "l")
 ```
 
 ![](PA1_complete_files/figure-html/unnamed-chunk-8-1.png) 
@@ -124,7 +124,58 @@ paste("Interval with maximum number of steps averaged over all days is", peakId,
 ```
 
 ## Imputing missing values
+The total number of rows with missing values is found and reported:
+
+```r
+countNAs <- 0
+for(i in 1:17568) {
+        if (sum(is.na(activity_data[i,])) > 0) countNAs <- countNAs + 1
+}
+paste("The number of NAs in dataframe is", countNAs, sep = " ")
+```
+
+```
+## [1] "The number of NAs in dataframe is 2304"
+```
+Missing values occur only in the steps variable, as seen below:
 
 
+```r
+sum(is.na(steps))
+```
+
+```
+## [1] 2304
+```
+
+```r
+sum(is.na(ids))
+```
+
+```
+## [1] 0
+```
+
+```r
+sum(is.na(dates))
+```
+
+```
+## [1] 0
+```
+
+Create new data set that replaces missing values (NAs) with the mean for that interval.
+
+```r
+new_data <- activity_data
+
+for(i in 1:17568) {
+        if (is.na(steps[i])) {
+                logic_id <- intervalMean[,1] == ids[i]
+                id_mean <- intervalMean[,2][logic_id]
+                new_data$steps[i] <- id_mean
+        } else new_data$steps[i] <- activity_data$steps[i]
+}
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?

@@ -109,7 +109,7 @@ sum(is.na(ids))
 sum(is.na(dates))
 ```
 
-
+Create new data set that replaces missing values (NAs) with the mean for that interval.
 ```{r}
 new_data <- activity_data
 
