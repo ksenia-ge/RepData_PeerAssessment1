@@ -156,5 +156,5 @@ medianSteps <- median(dailySteps)
 paste("mean daily steps =", meanSteps, sep = " ")
 paste("median daily steps =", medianSteps, sep = " ")
 ```
-
+Both the mean and median values are higher after filling in missing values with mean value for that interval.
 ## Are there differences in activity patterns between weekdays and weekends?

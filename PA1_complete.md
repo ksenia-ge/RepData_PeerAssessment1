@@ -231,5 +231,5 @@ paste("median daily steps =", medianSteps, sep = " ")
 ```
 ## [1] "median daily steps = 10766.1886792453"
 ```
-
+Both the mean and median values are higher after filling in missing values with mean value for that interval.
 ## Are there differences in activity patterns between weekdays and weekends?
